@@ -23,12 +23,13 @@ def roi(frame, vertices):
 def draw_lines(frame, lines):
     for line in lines:
         coords = line[0]
-        cv.line(frame, (coords[0], coords[1]), (coords[2], coords[3]), [255, 0, 255], 3)
+        cv.line(frame, (coords[0], coords[1]), (coords[2], coords[3]), [255, 255, 255], 3)
 
 
 def process_frame(frame):
     processed_frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
     processed_frame = cv.Canny(processed_frame, threshold1=200, threshold2=300)
+    processed_frame = cv.GaussianBlur(processed_frame, (5, 5), 0)
     processed_frame = roi(processed_frame, vertices)
     lines = cv.HoughLinesP(processed_frame, 1, np.pi / 180, 180, 20, 15)
     if lines is not None:
