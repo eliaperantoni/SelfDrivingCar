@@ -7,12 +7,11 @@ import cv2 as cv
 file_name = 'training_data.npy'
 
 
-def display():
-    train_data = np.load(file_name)
+def display(train_data):
     for item in train_data:
         img = item[0]
         choice = item[1]
-        img = cv.resize(img, (160, 120))
+        # img = cv.resize(img, (160, 120))
         cv.imshow('window', img)
         print(choice)
         if cv.waitKey(25) & 0xFF == ord('q'):
@@ -58,5 +57,6 @@ def balance(train_data, verbose=True):
 
 if __name__ == "__main__":
     train_data = np.load(file_name)
+    # display(train_data)
     balanced_data = balance(train_data)
     np.save(file_name, balanced_data)

@@ -23,11 +23,10 @@ def keys_to_output(keys):
 
 
 def main(file_name):
-    if True: # Timeout
+    if True:  # Timeout
         for i in range(5)[::-1]:
             time.sleep(1)
-            print(i+1)
-
+            print(i + 1)
 
     last_time = time.time()
 
@@ -52,11 +51,17 @@ def main(file_name):
 
         # Stop recording when Z is pressed
         if 'Z' in k:
-            print('Quitting')
-            print("Saving batch")
+            print('Pause')
             np.save(file_name, training_data)
-            break
+            while True:
+                k = key_check()
+                keys = keys_to_output(k)
+                if 'X' in k:
+                    print('Resume')
+                    break
 
 
 if __name__ == "__main__":
     main(file_name)
+# GTAV_HANDLE = cmdow /T
+# Run cmdow GTAV_HANDLE /MOV -3 15

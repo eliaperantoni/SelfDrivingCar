@@ -4,7 +4,7 @@ from alexnet import alexnet
 WIDTH = 80
 HEIGHT = 60
 LR = 1e-3
-EPOCHS = 1
+EPOCHS = 15
 MODEL_NAME = 'pygta5-car-{}-{}-{}-epochs.model'. \
     format(LR, 'alexnet', EPOCHS)
 
