@@ -25,4 +25,4 @@ model.fit({'input': train_x}, {'targets': train_y},
           n_epoch=EPOCHS, validation_set=({'input': test_x}, {'targets': test_y}),
           snapshot_step=500, run_id=MODEL_NAME, show_metric=True)
 
-# tensorboard --logir=C:/Users/Elia/PycharmProjects/SelfDrivingGrandTheftAutoV/v2/log
+# tensorboard --logdir=C:/Users/Elia/PycharmProjects/SelfDrivingGrandTheftAutoV/v2/log
