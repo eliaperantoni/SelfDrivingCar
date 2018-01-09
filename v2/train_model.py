@@ -4,7 +4,7 @@ from alexnet import alexnet
 WIDTH = 80
 HEIGHT = 60
 LR = 1e-3
-EPOCHS = 15
+EPOCHS = 8
 MODEL_NAME = 'pygta5-car-{}-{}-{}-epochs.model'. \
     format(LR, 'alexnet', EPOCHS)
 
@@ -24,6 +24,7 @@ test_y = np.array([i[1] for i in test]) # Prendo solo le label
 model.fit({'input': train_x}, {'targets': train_y},
           n_epoch=EPOCHS, validation_set=({'input': test_x}, {'targets': test_y}),
           snapshot_step=500, run_id=MODEL_NAME, show_metric=True)
+
 
 model.save('models/model.tfl')
 

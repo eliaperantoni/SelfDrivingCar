@@ -57,6 +57,6 @@ def balance(train_data, verbose=True):
 
 if __name__ == "__main__":
     train_data = np.load(file_name)
-    # display(train_data)
-    balanced_data = balance(train_data)
-    np.save(file_name, balanced_data)
+    display(train_data)
+    #balanced_data = balance(train_data)
+    #np.save(file_name, balanced_data)
