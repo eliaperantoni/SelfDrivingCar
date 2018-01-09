@@ -64,3 +64,9 @@ venv/
 *.npy
 
 v2/checkpoint
+
+v2/model_data/
+
+v2/models/
+
+v2/models/log/
