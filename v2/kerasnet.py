@@ -15,7 +15,7 @@ config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 set_session(tf.Session(config=config))
 
-def kerasnet(width, height, learning_rate):
+def kerasnet(width, height):
     model = Sequential()
     model.add(Conv2D(96, kernel_size=11, strides=4, activation='relu',
                      input_shape=[width, height, 1]))
@@ -29,6 +29,7 @@ def kerasnet(width, height, learning_rate):
     model.add(Conv2D(256, kernel_size=3, activation='relu'))
     model.add(MaxPooling2D(3, strides=2))
     model.add(BatchNormalization())
+    model.add(Flatten())
     model.add(Dense(4096, activation='tanh'))
     model.add(Dropout(0.5))
     model.add(Dense(4096, activation='tanh'))
@@ -36,5 +37,5 @@ def kerasnet(width, height, learning_rate):
     model.add(Dense(3, activation='softmax'))
 
     model.compile(loss=keras.losses.categorical_crossentropy,
-                  optimizer=keras.optimizers.Adam(),
+                  optimizer=keras.optimizers.Adadelta(),
                   metrics=['accuracy'])
