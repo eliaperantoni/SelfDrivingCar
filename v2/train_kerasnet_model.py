@@ -25,3 +25,5 @@ test_y = np.array([i[1] for i in test]) # Prendo solo le label
 model.fit(train_x, train_y, batch_size=100, epochs=8, validation_split=0.1, callbacks=[tbCallBack])
 
 model.save('keras_models/v1.h5')
+
+# tensorboard --logdir=C:\Users\Elia\PycharmProjects\SelfDrivingGrandTheftAutoV\v2\Graph
