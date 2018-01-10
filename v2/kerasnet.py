@@ -12,8 +12,8 @@ from keras.layers import BatchNormalization
 from keras.layers import Dropout
 
 config = tf.ConfigProto()
-#config.gpu_options.allow_growth = True
-config.gpu_optionsper_process_gpu_memory_fraction = 0.1
+config.gpu_options.allow_growth = True
+#config.gpu_optionsper_process_gpu_memory_fraction = 0.1
 set_session(tf.Session(config=config))
 
 def kerasnet(width, height) -> keras.models.Sequential:

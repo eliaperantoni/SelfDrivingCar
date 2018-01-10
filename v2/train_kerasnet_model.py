@@ -23,7 +23,7 @@ test_x = np.array([i[0] for i in test]).reshape([-1, WIDTH, HEIGHT, 1]) # Prendo
 test_y = np.array([i[1] for i in test]) # Prendo solo le label
 
 model.fit(train_x, train_y, batch_size=100, epochs=8, validation_split=0.1, callbacks=[tbCallBack])
-
 model.save('keras_models/v1.h5')
+print(model.evaluate(test_x, test_y))
 
 # tensorboard --logdir=C:\Users\Elia\PycharmProjects\SelfDrivingGrandTheftAutoV\v2\Graph
