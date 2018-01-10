@@ -5,8 +5,7 @@ import time
 from directkeys import press_key, release_key, W, A, S, D
 from keras.models import load_model
 from getkeys import key_check
-import tensorflow as tf
-from keras.backend.tensorflow_backend import set_session
+
 import random
 
 WIDTH = 80
@@ -16,11 +15,6 @@ EPOCHS = 10
 MODEL_NAME = 'keras_models/v1.h5'
 
 t_time = 0.09
-
-config = tf.ConfigProto()
-config.gpu_options.allow_growth = True
-#config.gpu_optionsper_process_gpu_memory_fraction = 0.1
-set_session(tf.Session(config=config))
 
 
 def straight():

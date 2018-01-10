@@ -41,28 +41,13 @@ def balance(train_data, verbose=True):
         elif choice == [0, 1, 0]:
             forward.append([img, choice])
 
-    if False: # Tutti della lunghezza minore
-        min_length = min([len(left),
-                          len(right),
-                          len(forward)])
+    min_length = min([len(left),
+                      len(right),
+                      len(forward)])
 
-        left = left[:min_length]
-        right = right[:min_length]
-        forward = forward[:min_length]
-    else:
-        min_length = min([len(left),
-                          len(right)])
-
-        left = left[:min_length]
-        right = right[:min_length]
-
-        sideways_to_forward_ratio = 0.5
-        n_sideways = len(left) + len(right)
-        n_forward = int(n_sideways / sideways_to_forward_ratio)
-        print(n_forward)
-        forward = forward[:n_forward]
-
-        
+    left = left[:min_length]
+    right = right[:min_length]
+    forward = forward[:min_length]
 
     final_data = left + right + forward
     shuffle(final_data)
