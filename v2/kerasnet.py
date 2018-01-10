@@ -8,6 +8,8 @@ import pandas as pd
 import numpy as np
 import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
+from keras.layers import BatchNormalization
+from keras.layers import Dropout
 
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
@@ -15,4 +17,24 @@ set_session(tf.Session(config=config))
 
 def kerasnet(width, height, learning_rate):
     model = Sequential()
-    model.add()
+    model.add(Conv2D(96, kernel_size=11, strides=4, activation='relu',
+                     input_shape=[width, height, 1]))
+    model.add(MaxPooling2D(3, strides=2))
+    model.add(BatchNormalization())
+    model.add(Conv2D(256, kernel_size=5, activation='relu'))
+    model.add(MaxPooling2D(3, strides=2))
+    model.add(BatchNormalization())
+    model.add(Conv2D(384, kernel_size=3, activation='relu'))
+    model.add(Conv2D(384, kernel_size=3, activation='relu'))
+    model.add(Conv2D(256, kernel_size=3, activation='relu'))
+    model.add(MaxPooling2D(3, strides=2))
+    model.add(BatchNormalization())
+    model.add(Dense(4096, activation='tanh'))
+    model.add(Dropout(0.5))
+    model.add(Dense(4096, activation='tanh'))
+    model.add(Dropout(0.5))
+    model.add(Dense(3, activation='softmax'))
+
+    model.compile(loss=keras.losses.categorical_crossentropy,
+                  optimizer=keras.optimizers.Adam(),
+                  metrics=['accuracy'])
