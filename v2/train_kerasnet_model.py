@@ -11,7 +11,7 @@ EPOCHS = 8
 
 model = kerasnet(WIDTH, HEIGHT)
 
-train_data = np.load('training_data.npy')
+train_data = np.load('final_training_data_balanced.npy')
 
 train = train_data[:-100]
 test = train_data[-100:]

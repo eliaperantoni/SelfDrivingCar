@@ -4,7 +4,7 @@ from collections import Counter
 from random import shuffle
 import cv2 as cv
 
-file_name = 'training_data.npy'
+file_name = 'final_training_data.npy'
 
 
 def display(train_data):
@@ -57,6 +57,6 @@ def balance(train_data, verbose=True):
 
 if __name__ == "__main__":
     train_data = np.load(file_name)
-    display(train_data)
-    #balanced_data = balance(train_data)
-    #np.save(file_name, balanced_data)
+    #display(train_data)
+    balanced_data = balance(train_data)
+    np.save(file_name[:-4]+'_balanced.npy', balanced_data)
