@@ -15,19 +15,19 @@ config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 set_session(tf.Session(config=config))
 
-def kerasnet(width, height):
+def kerasnet(width, height) -> keras.models.Sequential:
     model = Sequential()
     model.add(Conv2D(96, kernel_size=11, strides=4, activation='relu',
-                     input_shape=[width, height, 1]))
-    model.add(MaxPooling2D(3, strides=2))
+                     input_shape=[width, height, 1], padding='same'))
+    model.add(MaxPooling2D(3, strides=2, padding='same'))
     model.add(BatchNormalization())
-    model.add(Conv2D(256, kernel_size=5, activation='relu'))
-    model.add(MaxPooling2D(3, strides=2))
+    model.add(Conv2D(256, kernel_size=5, activation='relu', padding='same'))
+    model.add(MaxPooling2D(3, strides=2, padding='same'))
     model.add(BatchNormalization())
-    model.add(Conv2D(384, kernel_size=3, activation='relu'))
-    model.add(Conv2D(384, kernel_size=3, activation='relu'))
-    model.add(Conv2D(256, kernel_size=3, activation='relu'))
-    model.add(MaxPooling2D(3, strides=2))
+    model.add(Conv2D(384, kernel_size=3, activation='relu', padding='same'))
+    model.add(Conv2D(384, kernel_size=3, activation='relu', padding='same'))
+    model.add(Conv2D(256, kernel_size=3, activation='relu', padding='same'))
+    model.add(MaxPooling2D(3, strides=2, padding='same'))
     model.add(BatchNormalization())
     model.add(Flatten())
     model.add(Dense(4096, activation='tanh'))
@@ -39,3 +39,5 @@ def kerasnet(width, height):
     model.compile(loss=keras.losses.categorical_crossentropy,
                   optimizer=keras.optimizers.Adadelta(),
                   metrics=['accuracy'])
+
+    return model

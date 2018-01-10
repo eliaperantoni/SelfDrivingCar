@@ -1,0 +1,6 @@
+Baller2 small
+X: -2.66
+Z: 1.81
+
+Flatmax: 50
+Steering: 16
