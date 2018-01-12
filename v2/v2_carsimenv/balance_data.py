@@ -4,7 +4,7 @@ from collections import Counter
 from random import shuffle
 import cv2 as cv
 
-file_name = 'training_data/merged_training_data.npy'
+file_name = 'training_data/training_data_0.npy'
 
 
 def display(train_data):

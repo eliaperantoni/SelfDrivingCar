@@ -13,7 +13,7 @@ WIDTH = 80
 HEIGHT = 60
 LR = 1e-3
 EPOCHS = 10
-MODEL_NAME = 'keras_models/v1.h5'
+MODEL_NAME = 'keras_models/v2.h5'
 
 t_time = 0.09
 
