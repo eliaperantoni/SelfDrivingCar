@@ -41,6 +41,7 @@ def main(file_name):
         frame = grab_screen(region=(0, 40, 800, 640))
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         frame = cv2.resize(frame, (80, 60))
+
         k = key_check()
         keys = keys_to_output(k)
         training_data.append([frame, keys])
@@ -59,6 +60,9 @@ def main(file_name):
                 if 'X' in k:
                     print('Resume')
                     break
+                elif 'Q' in k:
+                    np.save(file_name, training_data)
+                    return
 
 
 if __name__ == "__main__":

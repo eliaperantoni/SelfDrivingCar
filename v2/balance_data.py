@@ -3,8 +3,10 @@ import pandas as pd
 from collections import Counter
 from random import shuffle
 import cv2 as cv
+from sklearn.utils import resample
 
-file_name = 'final_training_data.npy'
+file_name = 'training_data.npy'
+
 
 
 def display(train_data):
@@ -52,7 +54,7 @@ def balance(train_data, verbose=True):
     final_data = left + right + forward
     shuffle(final_data)
     if verbose: print('Before: ', Counter(pd.DataFrame(final_data)[1].apply(str)))
-    return final_data
+    return np.array(final_data)
 
 
 if __name__ == "__main__":

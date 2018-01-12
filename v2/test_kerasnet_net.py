@@ -69,7 +69,7 @@ def main():
             last_time = time.time()
             screen = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
             screen = cv2.resize(screen, (80, 60))
-            prediction = model.predict(screen.reshape(1, 80, 60, 1))[0]
+            prediction = model.predict(screen.reshape(1, HEIGHT, WIDTH, 1))[0]
             print(prediction)
 
             turn_thresh = .75

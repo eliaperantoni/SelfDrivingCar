@@ -9,17 +9,17 @@ HEIGHT = 60
 LR = 1e-3
 EPOCHS = 1
 
-model = kerasnet(WIDTH, HEIGHT)
+model = kerasnet(HEIGHT, WIDTH)
 
 train_data = np.load('training_data/merged_training_data_balanced.npy')
 
 train = train_data[:-100]
 test = train_data[-100:]
 
-train_x = np.array([i[0] for i in train]).reshape([-1, WIDTH, HEIGHT, 1]) # Prendo solo le immagini
+train_x = np.array([i[0] for i in train]).reshape([-1, HEIGHT, WIDTH, 1]) # Prendo solo le immagini
 train_y = np.array([i[1] for i in train]) # Prendo solo le label
 
-test_x = np.array([i[0] for i in test]).reshape([-1, WIDTH, HEIGHT, 1]) # Prendo solo le immagini
+test_x = np.array([i[0] for i in test]).reshape([-1, HEIGHT, WIDTH, 1]) # Prendo solo le immagini
 test_y = np.array([i[1] for i in test]) # Prendo solo le label
 
 model.fit(train_x, train_y, batch_size=100, epochs=EPOCHS, validation_split=0.1, callbacks=[tbCallBack])
