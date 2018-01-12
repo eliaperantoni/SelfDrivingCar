@@ -5,7 +5,7 @@ import numpy as np
 from getkeys import key_check
 from grabscreen import grab_screen
 
-file_name = 'training_data.npy'
+file_name = 'training_data____.npy'
 
 
 def keys_to_output(keys):
@@ -44,7 +44,6 @@ def main(file_name):
         k = key_check()
         keys = keys_to_output(k)
         training_data.append([frame, keys])
-
         if len(training_data) % 500 == 0:
             print("Saving batch")
             np.save(file_name, training_data)
