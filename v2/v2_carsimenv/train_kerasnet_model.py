@@ -1,6 +1,6 @@
 import keras
 import numpy as np
-from kerasnet import kerasnet
+from v2.kerasnet import kerasnet
 
 tbCallBack = keras.callbacks.TensorBoard(log_dir='./Graph', histogram_freq=0, write_graph=True, write_images=True)
 

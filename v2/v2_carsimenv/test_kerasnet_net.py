@@ -1,10 +1,10 @@
 import numpy as np
-from grabscreen import grab_screen
+from v2.grabscreen import grab_screen
 import cv2
 import time
 from directkeys import press_key, release_key, W, A, S, D
 from keras.models import load_model
-from getkeys import key_check
+from v2.getkeys import key_check
 import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
 import random
