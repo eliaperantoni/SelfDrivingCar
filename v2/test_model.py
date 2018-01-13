@@ -1,10 +1,10 @@
 import numpy as np
-from grabscreen import grab_screen
+from v2.grabscreen import grab_screen
 import cv2
 import time
 from directkeys import press_key, release_key, W, A, S, D
-from alexnet import alexnet
-from getkeys import key_check
+from v2.alexnet import alexnet
+from v2.getkeys import key_check
 
 import random
 

@@ -1,5 +1,5 @@
 import numpy as np
-from alexnet import alexnet
+from v2.alexnet import alexnet
 
 WIDTH = 80
 HEIGHT = 60

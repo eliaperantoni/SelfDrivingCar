@@ -2,8 +2,8 @@ import cv2
 import time
 import os
 import numpy as np
-from getkeys import key_check
-from grabscreen import grab_screen
+from v2.getkeys import key_check
+from v2.grabscreen import grab_screen
 
 file_name = 'training_data.npy'
 
