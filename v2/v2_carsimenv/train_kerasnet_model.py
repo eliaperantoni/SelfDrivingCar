@@ -9,7 +9,7 @@ HEIGHT = 60
 LR = 1e-3
 EPOCHS = 1
 
-model = kerasnet(HEIGHT, WIDTH)
+model = kerasnet(WIDTH, HEIGHT)
 
 train_data = np.load('training_data/merged_training_data_balanced.npy')
 

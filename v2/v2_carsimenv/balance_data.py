@@ -6,6 +6,14 @@ import cv2 as cv
 
 file_name = 'training_data/training_data_0.npy'
 
+BALANCE_MODE = "RESAMPLE"
+"""
+Can be:
+
+RESAMPLE
+MIN
+
+"""
 
 def display(train_data):
     for item in train_data:
@@ -41,7 +49,7 @@ def balance(train_data, verbose=True):
         elif choice == [0, 1, 0]:
             forward.append([img, choice])
 
-    if False: # Tutti della lunghezza minore
+    if BALANCE_MODE == "MIN":
         min_length = min([len(left),
                           len(right),
                           len(forward)])
@@ -49,18 +57,9 @@ def balance(train_data, verbose=True):
         left = left[:min_length]
         right = right[:min_length]
         forward = forward[:min_length]
-    else:
-        min_length = min([len(left),
-                          len(right)])
-
-        left = left[:min_length]
-        right = right[:min_length]
-
-        sideways_to_forward_ratio = 0.5
-        n_sideways = len(left) + len(right)
-        n_forward = int(n_sideways / sideways_to_forward_ratio)
-        print(n_forward)
-        forward = forward[:n_forward]
+    elif BALANCE_MODE == "RESAMPLE":
+        left = resample(left, n_samples=len(forward), replace=True)
+        right = resample(right, n_samples=len(forward), replace=True)
 
         
 
