@@ -1,4 +1,4 @@
-# Self Driving Grand Theft Auto V
+# Self Driving Car
 
 Provides with utilities and models for making a self driving car in Grand Theft Auto V and other car simulation enviroments
 
