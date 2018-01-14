@@ -4,8 +4,9 @@ from collections import Counter
 from random import shuffle
 import cv2 as cv
 from sklearn.utils import resample
+from sklearn.utils import resample
 
-file_name = 'training_data.npy'
+file_name = 'training_data/training_data.npy'
 
 BALANCE_MODE = "RESAMPLE"
 """
@@ -49,7 +50,6 @@ def balance(train_data, verbose=True):
             right.append([img, choice])
         elif choice == [0, 1, 0]:
             forward.append([img, choice])
-
     if BALANCE_MODE == "MIN":
         min_length = min([len(left),
                           len(right),
@@ -64,12 +64,12 @@ def balance(train_data, verbose=True):
 
     final_data = left + right + forward
     shuffle(final_data)
-    if verbose: print('Before: ', Counter(pd.DataFrame(final_data)[1].apply(str)))
+    if verbose: print('After: ', Counter(pd.DataFrame(final_data)[1].apply(str)))
     return np.array(final_data)
 
 
 if __name__ == "__main__":
     train_data = np.load(file_name)
-    #display(train_data)
-    balanced_data = balance(train_data)
-    np.save(file_name[:-4]+'_balanced.npy', balanced_data)
+    display(train_data)
+    #balanced_data = balance(train_data)
+    #np.save(file_name[:-4]+'_balanced.npy', balanced_data)

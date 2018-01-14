@@ -2,7 +2,6 @@ import keras
 import numpy as np
 from v2.nvidianet.nvidianet import nvidianet
 import cv2 as cv
-import sys, os
 
 tbCallBack = keras.callbacks.TensorBoard(log_dir='./Graph', histogram_freq=0, write_graph=True, write_images=True)
 
@@ -10,9 +9,8 @@ WIDTH = 200
 HEIGHT = 66
 LR = 1e-3
 EPOCHS = 8
-DROPOUT = 0.5
 
-model = nvidianet(WIDTH, HEIGHT, LR, DROPOUT)
+model = nvidianet(WIDTH, HEIGHT)
 
 train_data = np.load('training_data/training_data_balanced.npy')
 
@@ -24,8 +22,6 @@ train_y = [i[1] for i in train]
 
 test_x = np.array([i[0] for i in test]).reshape(-1,HEIGHT,WIDTH,3)
 test_y = [i[1] for i in test]
-
-cv.imwrite('example.png', train_x[0])
 
 model.fit(train_x, train_y, batch_size=100, epochs=8, validation_split=0.1, callbacks=[tbCallBack])
 

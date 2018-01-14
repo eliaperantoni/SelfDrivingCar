@@ -50,6 +50,8 @@ def balance(train_data, verbose=True):
             right.append([img, choice])
         elif choice == [0, 1, 0]:
             forward.append([img, choice])
+
+    print(len(forward), i)
     if BALANCE_MODE == "MIN":
         min_length = min([len(left),
                           len(right),
@@ -64,7 +66,7 @@ def balance(train_data, verbose=True):
 
     final_data = left + right + forward
     shuffle(final_data)
-    if verbose: print('Before: ', Counter(pd.DataFrame(final_data)[1].apply(str)))
+    if verbose: print('After: ', Counter(pd.DataFrame(final_data)[1].apply(str)))
     return np.array(final_data)
 
 

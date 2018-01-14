@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append('C:\\Users\\Elia\\PycharmProjects\\SelfDrivingGrandTheftAutoV')
+
 import cv2
 import time
 import os
@@ -5,8 +9,10 @@ import numpy as np
 from v2.getkeys import key_check
 from v2.grabscreen import grab_screen
 
-file_name = 'training_data.npy'
+file_name = 'training_data/training_data.npy'
 
+WIDTH = 200
+HEIGHT = 66
 
 def keys_to_output(keys):
     #         A  W  D
@@ -39,8 +45,7 @@ def main(file_name):
 
     while True:
         frame = grab_screen(region=(0, 40, 800, 640))
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        frame = cv2.resize(frame, (80, 60))
+        frame = cv2.resize(frame, (WIDTH, HEIGHT))
 
         k = key_check()
         keys = keys_to_output(k)
