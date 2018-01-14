@@ -1,29 +1,27 @@
-import sys
-
-sys.path.append('C:\\Users\\Elia\\PycharmProjects\\SelfDrivingGrandTheftAutoV')
-
 import numpy as np
-from v2.grabscreen import grab_screen
+from utils.grabscreen import grab_screen
 import cv2
 import time
-from v2.directkeys import press_key, release_key, W, A, S, D
+from settings import getSet
+from utils.directkeys import press_key, release_key, W, A, S, D
 from keras.models import load_model
-from v2.getkeys import key_check
+from utils.getkeys import key_check
 import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
 import random
 
-WIDTH = 200
-HEIGHT = 66
-LR = 1e-3
-EPOCHS = 10
-MODEL_NAME = 'keras_models/v1.h5'
+sets = getSet()
+
+WIDTH = sets.WIDTH
+HEIGHT = sets.HEIGHT
+CHANNELS = sets.CHANNELS
+MODEL_NAME = sets.DEFAULT_MODEL_file
 
 t_time = 0.09
 
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
-#config.gpu_optionsper_process_gpu_memory_fraction = 0.1
+# config.gpu_optionsper_process_gpu_memory_fraction = 0.1
 set_session(tf.Session(config=config))
 
 
@@ -55,18 +53,16 @@ def right():
     time.sleep(t_time)
     release_key(D)
 
+
 for i in list(range(4))[::-1]:
     print(i + 1)
     time.sleep(1)
-
-
 
 model = load_model(MODEL_NAME)
 
 
 def main():
     last_time = time.time()
-
 
     paused = False
     while (True):
@@ -77,8 +73,8 @@ def main():
             screen = grab_screen(region=(0, 40, 800, 640))
             print('loop took {} seconds'.format(time.time() - last_time))
             last_time = time.time()
-            screen = cv2.resize(screen, (200, 66))
-            prediction = model.predict(screen.reshape(1, HEIGHT, WIDTH, 3))[0]
+            screen = cv2.resize(screen, (WIDTH, HEIGHT))
+            prediction = model.predict(screen.reshape(1, HEIGHT, WIDTH, CHANNELS))[0]
             print(prediction)
 
             turn_thresh = .75
@@ -106,7 +102,6 @@ def main():
                 release_key(W)
                 release_key(D)
                 time.sleep(1)
-
 
 
 main()
