@@ -15,7 +15,7 @@ class SettingsSet:
 
 
 env = SettingsSet(200, 66, 3, 'RESAMPLE', 'train_data/env/training_data.npy',
-                  1e-3, 0.5, 8, 0.1, 100, 'saved_models/env/env.h5')
+                  1e-3, 0.5, 8, 0.1, 100, 'saved_models/env/env_v2.h5')
 gta = SettingsSet(200, 66, 3, 'RESAMPLE', 'train_data/gta/training_data.npy',
                   1e-3, 0.5, 8, 0.1, 100, 'saved_models/gta/gta.h5')
 

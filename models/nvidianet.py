@@ -13,9 +13,9 @@ config.gpu_options.allow_growth = True
 #config.gpu_optionsper_process_gpu_memory_fraction = 0.1
 set_session(tf.Session(config=config))
 
-def nvidianet(width, height, lr=0.01, dropout=0.5) -> keras.models.Sequential:
+def nvidianet(width, height, channels, lr=0.01, dropout=0.5) -> keras.models.Sequential:
     model = Sequential()
-    model.add(Lambda(lambda x: x / 127.5 - 1.0, input_shape=[height, width, 3]))
+    model.add(Lambda(lambda x: x / 127.5 - 1.0, input_shape=[height, width, channels]))
     model.add(Conv2D(24, kernel_size=(5, 5), activation='elu', strides=(2, 2)))
     model.add(Conv2D(36, kernel_size=(5, 5), activation='elu', strides=(2, 2)))
     model.add(Conv2D(48, kernel_size=(5, 5), activation='elu', strides=(2, 2)))

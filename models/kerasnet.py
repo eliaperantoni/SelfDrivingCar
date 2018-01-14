@@ -16,10 +16,10 @@ config.gpu_options.allow_growth = True
 #config.gpu_optionsper_process_gpu_memory_fraction = 0.1
 set_session(tf.Session(config=config))
 
-def kerasnet(width, height) -> keras.models.Sequential:
+def kerasnet(width, height, channels) -> keras.models.Sequential:
     model = Sequential()
     model.add(Conv2D(96, kernel_size=11, strides=4, activation='relu',
-                     input_shape=[height, width, 1], padding='same'))
+                     input_shape=[height, width, channels], padding='same'))
     model.add(MaxPooling2D(3, strides=2, padding='same'))
     model.add(BatchNormalization())
     model.add(Conv2D(256, kernel_size=5, activation='relu', padding='same'))

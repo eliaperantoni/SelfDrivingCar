@@ -1,6 +1,6 @@
 import keras
 import numpy as np
-from models import nvidianet
+from models.nvidianet import nvidianet
 import cv2 as cv
 import sys, os
 from settings import getSet
@@ -19,7 +19,7 @@ EPOCHS = sets.EPOCHS
 BACTH_SIZE = sets.BATCH_SIZE
 VALIDATION_SPLIT = sets.VALIDATION_SPLIT
 
-model = nvidianet(WIDTH, HEIGHT, LR, DROPOUT)
+model = nvidianet(WIDTH, HEIGHT, CHANNELS, LR, DROPOUT)
 
 train_data = np.load(sets.DEFAULT_TRAIN_FILE)
 
