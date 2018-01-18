@@ -9,6 +9,8 @@ tbCallBack = keras.callbacks.TensorBoard(log_dir='./Graph', histogram_freq=0, wr
 
 sets = getSet()
 
+cv.imshow()
+
 WIDTH = sets.WIDTH
 HEIGHT = sets.HEIGHT
 LR = sets.LR
@@ -21,7 +23,7 @@ VALIDATION_SPLIT = sets.VALIDATION_SPLIT
 
 model = nvidianet(WIDTH, HEIGHT, CHANNELS, LR, DROPOUT)
 
-train_data = np.load(sets.DEFAULT_TRAIN_FILE)
+train_data = np.load(sets.DEFAULT_TRAIN_FILE_B)
 
 train = train_data[:-100]
 test = train_data[-100:]

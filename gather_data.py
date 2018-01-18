@@ -34,8 +34,6 @@ def main(file_name):
             time.sleep(1)
             print(i + 1)
 
-    last_time = time.time()
-
     if os.path.isfile(file_name):
         print("File exists")
         training_data = list(np.load(file_name))
@@ -51,9 +49,10 @@ def main(file_name):
         keys = keys_to_output(k)
         training_data.append([frame, keys])
 
-        if len(training_data) % 500 == 0:
+        if len(training_data) % 1000 == 0:
             print("Saving batch")
             np.save(file_name, training_data)
+            print("Saved")
 
         # Stop recording when Z is pressed
         if 'Z' in k:
@@ -66,7 +65,6 @@ def main(file_name):
                     print('Resume')
                     break
                 elif 'Q' in k:
-                    np.save(file_name, training_data)
                     return
 
 
