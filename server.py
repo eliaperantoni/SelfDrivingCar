@@ -25,8 +25,7 @@ def render_stream(message):
     img = Image.open(BytesIO(front))
     img = np.asarray(img)
     cv.imshow('win', img)
-    if cv.waitKey(25) & 0xFF == ord('q'):
-        cv.destroyAllWindows()
+    cv.waitKey(1)
 
 
 if __name__ == "__main__":
@@ -45,4 +44,3 @@ if __name__ == "__main__":
             time.sleep(0.01)
         except BlockingIOError:
             pass
-
