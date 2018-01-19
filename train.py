@@ -9,7 +9,7 @@ tbCallBack = keras.callbacks.TensorBoard(log_dir='./Graph', histogram_freq=0, wr
 
 sets = getSet()
 
-cv.imshow()
+
 
 WIDTH = sets.WIDTH
 HEIGHT = sets.HEIGHT
