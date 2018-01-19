@@ -9,13 +9,14 @@ from PIL import Image
 UDP_IP = "127.0.0.1"
 UDP_PORT = 3030
 
-sock = socket.socket(socket.AF_INET, # Internet
-                     socket.SOCK_DGRAM) # UDP
-sock.bind((UDP_IP, UDP_PORT))
+sock = socket.socket(socket.AF_INET,  # Internet
+                     socket.SOCK_DGRAM)  # UDP
+
 
 @callback("ping")
 def train_frame(message):
     print("Pong")
+
 
 @callback("render_stream")
 def render_stream(message):
@@ -27,12 +28,21 @@ def render_stream(message):
     if cv.waitKey(25) & 0xFF == ord('q'):
         cv.destroyAllWindows()
 
-last_time = 0
 
-while True:
-    msg, addr = sock.recvfrom(15000)
-    msg = bytes(msg).decode()
-    msg = json.loads(msg)
-    call(msg)
-    print((time.time() - last_time)**-1)
-    last_time = time.time()
+if __name__ == "__main__":
+    sock.bind((UDP_IP, UDP_PORT))
+    sock.setblocking(0)
+    last_time = 0
+
+    while True:
+        try:
+            msg, addr = sock.recvfrom(15000)
+            msg = bytes(msg).decode()
+            msg = json.loads(msg)
+            call(msg)
+            print((time.time() - last_time) ** -1)
+            last_time = time.time()
+            time.sleep(0.01)
+        except BlockingIOError:
+            pass
+
