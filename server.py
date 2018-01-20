@@ -12,25 +12,36 @@ UDP_PORT = 3030
 sock = socket.socket(socket.AF_INET,  # Internet
                      socket.SOCK_DGRAM)  # UDP
 
-
 @callback("ping")
 def train_frame(message):
     print("Pong")
 
 
 @callback("render_stream")
-def render_stream(message):
-    front = message["front"]
-    front = base64.b64decode(front)
-    img = Image.open(BytesIO(front))
+def render_stream(payload):
+    front = payload["front"]
+    left = payload["left"]
+    right = payload["right"]
+
+    print(payload["index"])
+
+    show_image(front, 'front')
+    show_image(left, 'left')
+    show_image(right, 'right')
+
+
+def show_image(base64string, name):
+    img = base64.b64decode(base64string)
+    img = Image.open(BytesIO(img))
     img = np.asarray(img)
-    cv.imshow('win', img)
+    cv.imshow(name, img)
     cv.waitKey(1)
 
 
 if __name__ == "__main__":
     sock.bind((UDP_IP, UDP_PORT))
     sock.setblocking(0)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 1)
     last_time = 0
 
     while True:
