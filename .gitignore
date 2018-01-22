@@ -73,3 +73,4 @@ v2/nvidianet/keras_models
 example.png
 
 !saved_models/*
+*.h5
