@@ -2,8 +2,6 @@ import cv2
 import time
 import os
 import numpy as np
-from utils.getkeys import key_check
-from utils.grabscreen import grab_screen
 from settings import getSet
 
 sets = getSet()
@@ -13,62 +11,16 @@ WIDTH = sets.WIDTH
 HEIGHT = sets.HEIGHT
 CHANNELS = sets.CHANNELS
 
+vars = {"iter": 0, "package": 0}
+training_data = []
 
-def keys_to_output(keys):
-    #         A  W  D
-    output = [0, 0, 0]
-
-    if 'A' in keys:
-        output[0] = 1
-    elif 'D' in keys:
-        output[2] = 1
-    elif 'W' in keys:
-        output[1] = 1
-
-    return output
-
-
-def main(file_name):
-    if True:  # Timeout
-        for i in range(5)[::-1]:
-            time.sleep(1)
-            print(i + 1)
-
-    if os.path.isfile(file_name):
-        print("File exists")
-        training_data = list(np.load(file_name))
-    else:
-        print("File does not exists")
+def save_data(frame, data):
+    global training_data
+    training_data.append([frame, data])
+    vars["iter"] += 1
+    if vars["iter"] >= 1000:
+        np.save(file_name.format(vars["package"]), np.array(training_data))
         training_data = []
-
-    while True:
-        frame = grab_screen(region=(0, 40, 800, 640))
-        frame = cv2.resize(frame, (WIDTH, HEIGHT))
-
-        k = key_check()
-        keys = keys_to_output(k)
-        training_data.append([frame, keys])
-
-        if len(training_data) % 1000 == 0:
-            print("Saving batch")
-            np.save(file_name, training_data)
-            print("Saved")
-
-        # Stop recording when Z is pressed
-        if 'Z' in k:
-            print('Pause')
-            np.save(file_name, training_data)
-            while True:
-                k = key_check()
-                keys = keys_to_output(k)
-                if 'X' in k:
-                    print('Resume')
-                    break
-                elif 'Q' in k:
-                    return
-
-
-if __name__ == "__main__":
-    main(file_name)
-# GTAV_HANDLE = cmdow /T
-# Run cmdow GTAV_HANDLE /MOV -3 15
+        print("Batch {} saved".format(vars["package"]))
+        vars["package"] += 1
+        vars["iter"] = 1

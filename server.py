@@ -1,5 +1,5 @@
 import socket, json, time, base64
-from functools import wraps
+import gather_data
 from dispatcher import callback, call, commands
 import numpy as np
 import cv2 as cv
@@ -17,25 +17,17 @@ def train_frame(message):
     print("Pong")
 
 
-@callback("render_stream")
+@callback("send_frame")
 def render_stream(payload):
-    front = payload["front"]
-    left = payload["left"]
-    right = payload["right"]
-
-    print(payload["index"])
-
-    show_image(front, 'front')
-    show_image(left, 'left')
-    show_image(right, 'right')
+    front = payload["frame"]
+    data = [payload["speed"], payload["turn_rate"]]
+    gather_data.save_data(decode_image(front), payload)
 
 
-def show_image(base64string, name):
+def decode_image(base64string):
     img = base64.b64decode(base64string)
     img = Image.open(BytesIO(img))
-    img = np.asarray(img)
-    cv.imshow(name, img)
-    cv.waitKey(1)
+    return np.asarray(img)
 
 
 if __name__ == "__main__":
@@ -50,7 +42,7 @@ if __name__ == "__main__":
             msg = bytes(msg).decode()
             msg = json.loads(msg)
             call(msg)
-            print((time.time() - last_time) ** -1)
+
             last_time = time.time()
             time.sleep(0.01)
         except BlockingIOError:
