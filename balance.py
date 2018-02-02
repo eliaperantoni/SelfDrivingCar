@@ -9,7 +9,7 @@ from settings import getSet
 
 sets = getSet()
 
-file_name = sets.DEFAULT_TRAIN_FILE
+file_name = sets.DEFAULT_TRAIN_FILE_M
 
 BALANCE_MODE = sets.BALANCE_MODE
 
@@ -27,48 +27,11 @@ def display(train_data):
 
 
 def balance(train_data, verbose=True):
-    """
-    :param train_data: Una lista del tipo [np.array(W*H), list(3,)]
-    :param verbose: Boolean
-    :return: Una lista come quella di partenza ma bilanciata tra W, A, D
-    """
-    if verbose: print('Before: ', Counter(pd.DataFrame(train_data)[1].apply(str)))
-    left, right, forward = [], [], []
-    shuffle(train_data)
-
-    # Divido i vari esempi nelle varie direzioni
-    for item in train_data:
-        img = item[0]
-        choice = item[1]
-
-        if choice == [1, 0, 0]:
-            left.append([img, choice])
-        elif choice == [0, 0, 1]:
-            right.append([img, choice])
-        elif choice == [0, 1, 0]:
-            forward.append([img, choice])
-
-    if BALANCE_MODE == "MIN":
-        min_length = min([len(left),
-                          len(right),
-                          len(forward)])
-
-        left = left[:min_length]
-        right = right[:min_length]
-        forward = forward[:min_length]
-    elif BALANCE_MODE == "RESAMPLE":
-        left = resample(left, n_samples=len(forward), replace=True)
-        right = resample(right, n_samples=len(forward), replace=True)
-
-    final_data = left + right + forward
-    shuffle(final_data)
-    if verbose: print('After: ', Counter(pd.DataFrame(final_data)[1].apply(str)))
-    return np.array(final_data)
+    pass # TODO Implementa la funzione di bilanciamento
 
 
 if __name__ == "__main__":
     disp = input('Display? [y/N]\n')
-    file_name = sets.DEFAULT_TRAIN_FILE
     train_data = np.load(file_name)
     if disp == 'y':
         display(train_data)

@@ -20,8 +20,8 @@ def train_frame(message):
 @callback("send_frame")
 def render_stream(payload):
     front = payload["frame"]
-    data = [payload["speed"], payload["turn_rate"]]
-    gather_data.save_data(decode_image(front), payload)
+    data = {"speed": payload["speed"],"turn_rate": payload["turn_rate"]}
+    gather_data.save_data(decode_image(front), data)
 
 
 def decode_image(base64string):
