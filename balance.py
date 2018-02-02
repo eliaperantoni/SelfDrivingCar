@@ -9,7 +9,6 @@ from settings import getSet
 
 sets = getSet()
 
-file_name = sets.DEFAULT_TRAIN_FILE_M
 
 BALANCE_MODE = sets.BALANCE_MODE
 
@@ -27,14 +26,16 @@ def display(train_data):
 
 
 def balance(train_data, verbose=True):
-    pass # TODO Implementa la funzione di bilanciamento
+    shuffle(train_data)
+    # TODO Bilancia
+    return train_data
 
 
 if __name__ == "__main__":
     disp = input('Display? [y/N]\n')
-    train_data = np.load(file_name)
+    train_data = np.load("train_data/env/training_data_balanced.npy")
     if disp == 'y':
         display(train_data)
     else:
         balanced_data = balance(train_data)
-        np.save(file_name[:-4] + '_balanced.npy', balanced_data)
+        np.save(sets.DEFAULT_TRAIN_FILE_B, balanced_data)

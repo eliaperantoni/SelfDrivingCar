@@ -20,7 +20,8 @@ def train_frame(message):
 @callback("send_frame")
 def render_stream(payload):
     front = payload["frame"]
-    data = {"speed": payload["speed"],"turn_rate": payload["turn_rate"]}
+    speed = payload["speed"] # TODO Usa questa variabile nel testing
+    data = {"turn_rate": payload["turn_rate"]}
     gather_data.save_data(decode_image(front), data)
 
 

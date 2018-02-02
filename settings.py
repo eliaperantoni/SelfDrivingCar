@@ -1,3 +1,5 @@
+# TODO Metti a posto questa schifezza
+
 class SettingsSet:
     def __init__(self,
                  width,
