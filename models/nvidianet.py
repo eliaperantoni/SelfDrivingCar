@@ -26,7 +26,7 @@ def nvidianet(width, height, channels, lr=0.01, dropout=0.5) -> keras.models.Seq
     model.add(Dense(100, activation='elu'))
     model.add(Dense(50, activation='elu'))
     model.add(Dense(10, activation='elu'))
-    model.add(Dense(3))
+    model.add(Dense(1))
     model.summary()
 
     model.compile(loss=keras.losses.mean_squared_error,
