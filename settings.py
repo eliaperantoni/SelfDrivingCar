@@ -30,7 +30,7 @@ class SettingsSet:
         self.EPOCHS = epochs
         self.VALIDATION_SPLIT = validation_split
         self.BATCH_SIZE = batch_size
-        self.DEFAULT_MODEL_file = default_model_file
+        self.DEFAULT_MODEL_FILE = default_model_file
 
 
 env = SettingsSet(width=200,

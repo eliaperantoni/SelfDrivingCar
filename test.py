@@ -15,7 +15,7 @@ sets = getSet()
 WIDTH = sets.WIDTH
 HEIGHT = sets.HEIGHT
 CHANNELS = sets.CHANNELS
-MODEL_NAME = sets.DEFAULT_MODEL_file
+MODEL_NAME = sets.DEFAULT_MODEL_FILE
 
 t_time = 0.09
 
