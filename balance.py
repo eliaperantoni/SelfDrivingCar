@@ -33,7 +33,7 @@ def balance(train_data, verbose=True):
 
 if __name__ == "__main__":
     disp = input('Display? [y/N]\n')
-    train_data = np.load("train_data/env/training_data_balanced.npy")
+    train_data = np.load(sets.DEFAULT_TRAIN_FILE_M)
     if disp == 'y':
         display(train_data)
     else:

@@ -18,7 +18,7 @@ def save_data(frame, data):
     global training_data
     training_data.append([frame, data])
     vars["iter"] += 1
-    if vars["iter"] >= 1000:
+    if vars["iter"] >= 3000:
         np.save(file_name.format(vars["package"]), np.array(training_data))
         training_data = []
         print("Batch {} saved".format(vars["package"]))

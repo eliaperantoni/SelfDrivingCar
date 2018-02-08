@@ -6,7 +6,9 @@ sets = getSet()
 
 
 def merge(files):
-    return np.vstack([np.load(file) for file in files])
+    arr = [np.load(file) for file in files]
+    print("Loaded all files, saving...")
+    return np.vstack(arr)
 
 
 def find_all(folder):

@@ -6,6 +6,9 @@ import cv2 as cv
 from io import BytesIO
 from PIL import Image
 import time
+import commander
+from keras.models import load_model
+from settings import getSet
 
 TRAINING = True
 
@@ -20,6 +23,10 @@ tome_sock = socket.socket(socket.AF_INET,  # Internet
 tothem_sock = socket.socket(socket.AF_INET,  # Internet
                             socket.SOCK_DGRAM)  # UDP
 
+sets = getSet()
+
+if not TRAINING:
+    model = load_model(sets.DEFAULT_MODEL_FILE)
 
 @callback("ping")
 def train_frame(message):
@@ -29,10 +36,21 @@ def train_frame(message):
 @callback("send_frame")
 def render_stream(payload):
     front = payload["frame"]
-    speed = payload["speed"]  # TODO Usa questa variabile nel testing
-    data = {"turn_rate": payload["turn_rate"]}
-    gather_data.save_data(decode_image(front), data)
-
+    speed = float(payload["speed"])
+    img = decode_image(front)
+    if TRAINING:
+        data = {"turn_rate": float(payload["turn_rate"])}
+        gather_data.save_data(img, data)
+    if False: # Mostra in diretta
+        cv.imshow('window', img)
+        cv.waitKey(1)
+    if TRAINING:
+        return {"verticalInput": commander.calc_throttle(speed, data["turn_rate"])}
+    else:
+        tn = model.predict(img.reshape([1, sets.HEIGHT, sets.WIDTH, sets.CHANNELS]))[0,0]
+        print(tn)
+        return {"verticalInput": commander.calc_throttle(speed, tn),
+                "turnRate": str(tn)}
 
 def decode_image(base64string):
     img = base64.b64decode(base64string)
@@ -50,9 +68,7 @@ if __name__ == "__main__":
             msg, addr = tome_sock.recvfrom(15000)
             msg = bytes(msg).decode()
             msg = json.loads(msg)
-            call(msg)
-            if not TRAINING:
-                tothem_sock.sendto("Hello world".encode(), (UDP_IP, TOTHEM_UDP_PORT))
-
+            response = call(msg)
+            tothem_sock.sendto(json.dumps(response).encode(), (UDP_IP, TOTHEM_UDP_PORT))
         except BlockingIOError:
             pass

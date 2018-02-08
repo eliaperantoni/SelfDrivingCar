@@ -10,7 +10,7 @@ def callback(command_name):
 
 def call(message):
     try:
-        commands[str(message['cmd'])](message['payload'])
+        return commands[str(message['cmd'])](message['payload'])
     except KeyError as e:
         print("No valid callback found for function {} or no payload or error threw".format(message['cmd']))
         print(e)

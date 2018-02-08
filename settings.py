@@ -46,7 +46,7 @@ env = SettingsSet(width=200,
                   epochs=8,
                   validation_split=0.1,
                   batch_size=100,
-                  default_model_file='saved_models/env/env_v3.h5')
+                  default_model_file='saved_models/env/env_v2_non_balanced.h5')
 
 gta = SettingsSet(width=200,
                   height=66,
