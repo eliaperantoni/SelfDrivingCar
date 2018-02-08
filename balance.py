@@ -6,21 +6,7 @@ import cv2 as cv
 from sklearn.utils import resample
 from sklearn.utils import resample
 from settings import settings
-
-
-BALANCE_MODE = settings["BALANCE_MODE"]
-
-
-def display(train_data):
-    for item in train_data:
-        img = item[0]
-        choice = item[1]
-        # img = cv.resize(img, (160, 120))
-        cv.imshow('window', img)
-        print(choice)
-        if cv.waitKey(25) & 0xFF == ord('q'):
-            cv.destroyAllWindows()
-            break
+import glob
 
 
 def balance(train_data, verbose=True):
@@ -30,10 +16,15 @@ def balance(train_data, verbose=True):
 
 
 if __name__ == "__main__":
-    disp = input('Display? [y/N]\n')
-    train_data = np.load(settings["DEFAULT_TRAIN_FILE_MERGED"])
-    if disp == 'y':
-        display(train_data)
-    else:
-        balanced_data = balance(train_data)
-        np.save(settings["DEFAULT_TRAIN_FILE_BALANCED"], balanced_data)
+    i = 0
+    files = glob.glob(settings["DEFAULT_TRAIN_FILE_DIRECTORY"] + "*.npy")
+    for completition, file in enumerate(files):
+        v = np.load(file)
+        mirror = np.array([(cv.flip(elem[0], 1), {"turn_rate": -elem[1]["turn_rate"]}) for elem in v])
+        np.random.shuffle(v)
+        np.random.shuffle(mirror)
+        np.save(settings["DEFAULT_TRAIN_FILE_PROCESSED_NORM"].format(i), v)
+        np.save(settings["DEFAULT_TRAIN_FILE_PROCESSED_MIRR"].format(i), mirror)
+        print(round(completition/len(files)*100, 1))
+        i += 1
+
