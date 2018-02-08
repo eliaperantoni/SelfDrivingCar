@@ -8,7 +8,7 @@ from PIL import Image
 import time
 import commander
 from keras.models import load_model
-from settings import getSet
+from settings import settings
 
 TRAINING = True
 
@@ -23,10 +23,9 @@ tome_sock = socket.socket(socket.AF_INET,  # Internet
 tothem_sock = socket.socket(socket.AF_INET,  # Internet
                             socket.SOCK_DGRAM)  # UDP
 
-sets = getSet()
 
 if not TRAINING:
-    model = load_model(sets.DEFAULT_MODEL_FILE)
+    model = load_model(settings["DEFAULT_MODEL_FILE"])
 
 @callback("ping")
 def train_frame(message):
@@ -47,7 +46,7 @@ def render_stream(payload):
     if TRAINING:
         return {"verticalInput": commander.calc_throttle(speed, data["turn_rate"])}
     else:
-        tn = model.predict(img.reshape([1, sets.HEIGHT, sets.WIDTH, sets.CHANNELS]))[0,0]
+        tn = model.predict(img.reshape([1, settings["HEIGHT"], settings["WIDTH"], settings["CHANNELS"]]))[0,0]
         print(tn)
         return {"verticalInput": commander.calc_throttle(speed, tn),
                 "turnRate": str(tn)}

@@ -2,7 +2,7 @@ import numpy as np
 from utils.grabscreen import grab_screen
 import cv2
 import time
-from settings import getSet
+from settings import settings
 from utils.directkeys import press_key, release_key, W, A, S, D
 from keras.models import load_model
 from utils.getkeys import key_check
@@ -10,12 +10,12 @@ import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
 import random
 
-sets = getSet()
 
-WIDTH = sets.WIDTH
-HEIGHT = sets.HEIGHT
-CHANNELS = sets.CHANNELS
-MODEL_NAME = sets.DEFAULT_MODEL_FILE
+
+WIDTH = settings["WIDTH"]
+HEIGHT = settings["HEIGHT"]
+CHANNELS = settings["CHANNELS"]
+MODEL_NAME = settings["DEFAULT_MODEL_FILE"]
 
 t_time = 0.09
 

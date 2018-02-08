@@ -2,14 +2,14 @@ import cv2
 import time
 import os
 import numpy as np
-from settings import getSet
+from settings import settings
 
-sets = getSet()
-file_name = sets.DEFAULT_TRAIN_FILE
 
-WIDTH = sets.WIDTH
-HEIGHT = sets.HEIGHT
-CHANNELS = sets.CHANNELS
+file_name = settings["DEFAULT_TRAIN_FILE"]
+
+WIDTH = settings["WIDTH"]
+HEIGHT = settings["HEIGHT"]
+CHANNELS = settings["WIDTH"]
 
 vars = {"iter": 0, "package": 0}
 training_data = []

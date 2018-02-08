@@ -1,8 +1,6 @@
 import numpy as np
-from settings import getSet
+from settings import settings
 import glob
-
-sets = getSet()
 
 
 def merge(files):
@@ -16,5 +14,5 @@ def find_all(folder):
 
 
 if __name__ == '__main__':
-    folder = sets.DEFAULT_TRAIN_FILE_DIRECTORY
-    np.save(sets.DEFAULT_TRAIN_FILE_M, merge(find_all(folder)))
+    folder = settings["DEFAULT_TRAIN_FILE_DIRECTORY"]
+    np.save(settings["DEFAULT_TRAIN_FILE_MERGED"], merge(find_all(folder)), allow_pickle=False)

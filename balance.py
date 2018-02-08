@@ -5,12 +5,10 @@ from random import shuffle
 import cv2 as cv
 from sklearn.utils import resample
 from sklearn.utils import resample
-from settings import getSet
-
-sets = getSet()
+from settings import settings
 
 
-BALANCE_MODE = sets.BALANCE_MODE
+BALANCE_MODE = settings["BALANCE_MODE"]
 
 
 def display(train_data):
@@ -33,9 +31,9 @@ def balance(train_data, verbose=True):
 
 if __name__ == "__main__":
     disp = input('Display? [y/N]\n')
-    train_data = np.load(sets.DEFAULT_TRAIN_FILE_M)
+    train_data = np.load(settings["DEFAULT_TRAIN_FILE_MERGED"])
     if disp == 'y':
         display(train_data)
     else:
         balanced_data = balance(train_data)
-        np.save(sets.DEFAULT_TRAIN_FILE_B, balanced_data)
+        np.save(settings["DEFAULT_TRAIN_FILE_BALANCED"], balanced_data)
