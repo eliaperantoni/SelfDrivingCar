@@ -13,5 +13,6 @@ settings = {
     "EPOCHS": 8,
     "VALIDATION_SPLIT": 0.1,
     "BATCH_SIZE": 100,
-    "DEFAULT_MODEL_FILE": 'saved_models/env_junk.h5'
+    "DEFAULT_MODEL_FILE": 'saved_models/env_v3.h5',
+    "TARGET_SPEED": 50
 }

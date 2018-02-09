@@ -1,6 +1,7 @@
 import math
+from settings import settings
 
-def calc_throttle(speed, turn_rate=0, speed_limit=40):
+def calc_throttle(speed, turn_rate=0, speed_limit=settings["TARGET_SPEED"]):
     throttle = (1 / (1 + math.e ** (speed - speed_limit)) - 0.5) * 2 * (1 - abs(turn_rate))
     return throttle
 

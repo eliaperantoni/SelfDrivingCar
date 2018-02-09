@@ -9,7 +9,6 @@ import time
 import commander
 from keras.models import load_model
 from settings import settings
-
 TRAINING = False
 
 UDP_IP = "localhost"

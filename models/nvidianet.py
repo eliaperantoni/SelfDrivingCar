@@ -8,10 +8,12 @@ import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
 from keras.layers import Dropout, Lambda, Dense, Flatten, Conv2D, MaxPooling2D
 
-config = tf.ConfigProto()
-config.gpu_options.allow_growth = True
-#config.gpu_optionsper_process_gpu_memory_fraction = 0.1
-set_session(tf.Session(config=config))
+def init():
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
+    set_session(tf.Session(config=config))
+
+init()
 
 def nvidianet(width, height, channels, lr=0.01, dropout=0.5) -> keras.models.Sequential:
     model = Sequential()
