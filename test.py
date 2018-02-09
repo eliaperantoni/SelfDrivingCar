@@ -1,107 +1,26 @@
-import numpy as np
-from utils.grabscreen import grab_screen
-import cv2
-import time
 from settings import settings
-from utils.directkeys import press_key, release_key, W, A, S, D
 from keras.models import load_model
-from utils.getkeys import key_check
-import tensorflow as tf
+import tensorflow as tf, numpy as np, glob
 from keras.backend.tensorflow_backend import set_session
 import random
-
-
 
 WIDTH = settings["WIDTH"]
 HEIGHT = settings["HEIGHT"]
 CHANNELS = settings["CHANNELS"]
 MODEL_NAME = settings["DEFAULT_MODEL_FILE"]
 
-t_time = 0.09
-
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
-# config.gpu_optionsper_process_gpu_memory_fraction = 0.1
 set_session(tf.Session(config=config))
-
-
-def straight():
-    ##    if random.randrange(4) == 2:
-    ##        ReleaseKey(W)
-    ##    else:
-    press_key(W)
-    release_key(A)
-    release_key(D)
-
-
-def left():
-    press_key(W)
-    press_key(A)
-    # ReleaseKey(W)
-    release_key(D)
-    # ReleaseKey(A)
-    time.sleep(t_time)
-    release_key(A)
-
-
-def right():
-    press_key(W)
-    press_key(D)
-    release_key(A)
-    # ReleaseKey(W)
-    # ReleaseKey(D)
-    time.sleep(t_time)
-    release_key(D)
-
-
-for i in list(range(4))[::-1]:
-    print(i + 1)
-    time.sleep(1)
 
 model = load_model(MODEL_NAME)
 
 
 def main():
-    last_time = time.time()
-
-    paused = False
-    while (True):
-
-        if not paused:
-            # 800x600 windowed mode
-            # screen =  np.array(ImageGrab.grab(bbox=(0,40,800,640)))
-            screen = grab_screen(region=(0, 40, 800, 640))
-            print('loop took {} seconds'.format(time.time() - last_time))
-            last_time = time.time()
-            screen = cv2.resize(screen, (WIDTH, HEIGHT))
-            prediction = model.predict(screen.reshape(1, HEIGHT, WIDTH, CHANNELS))[0]
-            print(prediction)
-
-            turn_thresh = .75
-            fwd_thresh = 0.70
-
-            if prediction[1] > fwd_thresh:
-                straight()
-            elif prediction[0] > turn_thresh:
-                left()
-            elif prediction[2] > turn_thresh:
-                right()
-            else:
-                straight()
-
-        keys = key_check()
-
-        # p pauses game and can get annoying.
-        if 'T' in keys:
-            if paused:
-                paused = False
-                time.sleep(1)
-            else:
-                paused = True
-                release_key(A)
-                release_key(W)
-                release_key(D)
-                time.sleep(1)
-
+    files = glob.glob(settings["DEFAULT_TRAIN_FILE_PROCESSED_DIRECTORY"] + "*.npy")
+    v = np.load(random.choice(files))
+    test_x = np.array([i[0] for i in v]).reshape(-1, HEIGHT, WIDTH, CHANNELS)
+    test_y = [float(i[1]["turn_rate"]) for i in v]
+    print(model.evaluate(test_x, test_y))
 
 main()
