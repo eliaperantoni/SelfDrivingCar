@@ -9,6 +9,10 @@ import time
 import commander
 from keras.models import load_model
 from settings import settings
+from models.nvidianet import init
+
+init()
+
 TRAINING = False
 
 UDP_IP = "localhost"

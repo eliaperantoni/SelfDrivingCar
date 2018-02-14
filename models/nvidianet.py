@@ -32,7 +32,6 @@ def nvidianet(width, height, channels, lr=0.01, dropout=0.5) -> keras.models.Seq
     model.summary()
 
     model.compile(loss=keras.losses.mean_squared_error,
-                  optimizer=keras.optimizers.Adam(lr),
-                  metrics=['accuracy'])
+                  optimizer=keras.optimizers.Adam(lr))
 
     return model

@@ -9,11 +9,12 @@ import random
 
 
 def generator(files):
+    random.shuffle(files)
     i = 0
     while True:
         if i == len(files):
-            i = 0
             random.shuffle(files)
+            i = 0
         sample = np.load(files[i])
         i += 1
         train_x = np.array([i[0] for i in sample]).reshape(-1, HEIGHT, WIDTH, CHANNELS)
@@ -36,7 +37,7 @@ model = nvidianet(WIDTH, HEIGHT, CHANNELS, LR, DROPOUT)
 
 files = glob.glob(settings["DEFAULT_TRAIN_FILE_PROCESSED_DIRECTORY"] + "*.npy")
 
-model.fit_generator(generator(files), epochs=8, steps_per_epoch=len(files))
+model.fit_generator(generator(files), epochs=EPOCHS, steps_per_epoch=len(files))
 
 model.save(settings["DEFAULT_MODEL_FILE"])
 
