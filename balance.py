@@ -30,7 +30,7 @@ if __name__ == "__main__":
         #     else:
         #         right.append(item)
         # print(len(left), len(forward), len(right))
-        # n = len(forward)
+        # n = max((len(left), len(right)))
         # while len(left) < n:
         #     if(len(left)>0):
         #         left.append(random.choice(left))
@@ -41,6 +41,7 @@ if __name__ == "__main__":
         #         right.append(random.choice(right))
         #     else:
         #         break
+        # print(len(left), len(forward), len(right))
         # v = np.array(left+forward+right)
         mirror = np.array([(cv.flip(elem[0], 1), {"turn_rate": -elem[1]["turn_rate"]}) for elem in v])
         np.random.shuffle(v)
@@ -49,6 +50,9 @@ if __name__ == "__main__":
         merged_split = np.array_split(merged, len(merged) // settings["BATCH_SIZE"])
         y = 0
         for batch in merged_split:
+            for elem in batch:
+                if elem[0].shape != (settings["HEIGHT"], settings["WIDTH"], settings["CHANNELS"]):
+                    raise Exception("Dimensione non valida", elem[0].shape)
             np.save(settings["DEFAULT_TRAIN_FILE_PROCESSED"].format(x, y), batch)
             y += 1
         #np.save(settings["DEFAULT_TRAIN_FILE_PROCESSED_NORM"].format(i), v)
