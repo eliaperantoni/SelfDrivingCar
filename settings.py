@@ -1,5 +1,5 @@
 settings = {
-    "WIDTH": 200,
+    "WIDTH": 600,
     "HEIGHT": 66,
     "CHANNELS": 3,
     "BALANCE_MODE": 'RESAMPLE',
@@ -8,10 +8,10 @@ settings = {
     "DEFAULT_TRAIN_FILE_PROCESSED_DIRECTORY": 'D:/train_data/processed/',
     "DEFAULT_TRAIN_FILE_PROCESSED": 'D:/train_data/processed/training_data_processed_{}_{}.npy',
     "LEARNING_RATE": 1e-3,
-    "DROPOUT_RATE": 0.7,
+    "DROPOUT_RATE": 0.5,
     "EPOCHS": 6,
     "VALIDATION_SPLIT": 0.1,
-    "BATCH_SIZE": 1000,
-    "DEFAULT_MODEL_FILE": 'saved_models/env_junk.h5',
+    "BATCH_SIZE": 100,
+    "DEFAULT_MODEL_FILE": 'saved_models/env_3_cameras_unbalanced.h5',
     "TARGET_SPEED": 40
 }

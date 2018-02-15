@@ -37,9 +37,14 @@ def train_frame(message):
 
 @callback("send_frame")
 def render_stream(payload):
-    front = payload["frame"]
+    front = payload["front"]
+    left = payload["left"]
+    right = payload["right"]
     speed = float(payload["speed"])
-    img = decode_image(front)
+    front = decode_image(front)
+    left = decode_image(left)
+    right = decode_image(right)
+    img = np.hstack((left, front, right))
     if TRAINING:
         data = {"turn_rate": float(payload["turn_rate"])}
         gather_data.save_data(img, data)
@@ -67,7 +72,7 @@ if __name__ == "__main__":
 
     while True:
         try:
-            msg, addr = tome_sock.recvfrom(15000)
+            msg, addr = tome_sock.recvfrom(45000)
             msg = bytes(msg).decode()
             msg = json.loads(msg)
             response = call(msg)
