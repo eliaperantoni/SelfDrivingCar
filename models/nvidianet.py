@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
-from keras.layers import Dropout, Lambda, Dense, Flatten, Conv2D, MaxPooling2D
+from keras.layers import Dropout, Lambda, Dense, Flatten, Conv2D, MaxPooling2D, BatchNormalization
 
 def init():
     config = tf.ConfigProto()
@@ -25,6 +25,7 @@ def nvidianet(width, height, channels, lr=0.01, dropout=0.5) -> keras.models.Seq
     model.add(Conv2D(64, kernel_size=(3, 3), activation='elu'))
     model.add(Dropout(dropout))
     model.add(Flatten())
+    model.add(Dense(1164, activation='elu'))
     model.add(Dense(100, activation='elu'))
     model.add(Dense(50, activation='elu'))
     model.add(Dense(10, activation='elu'))

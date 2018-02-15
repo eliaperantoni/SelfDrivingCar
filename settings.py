@@ -1,5 +1,5 @@
 settings = {
-    "WIDTH": 600,
+    "WIDTH": 200,
     "HEIGHT": 66,
     "CHANNELS": 3,
     "BALANCE_MODE": 'RESAMPLE',

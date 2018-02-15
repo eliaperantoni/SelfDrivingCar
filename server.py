@@ -13,7 +13,7 @@ from models.nvidianet import init
 
 init()
 
-TRAINING = False
+TRAINING = True
 
 UDP_IP = "localhost"
 
@@ -38,23 +38,18 @@ def train_frame(message):
 @callback("send_frame")
 def render_stream(payload):
     front = payload["front"]
-    left = payload["left"]
-    right = payload["right"]
     speed = float(payload["speed"])
     front = decode_image(front)
-    left = decode_image(left)
-    right = decode_image(right)
-    img = np.hstack((left, front, right))
     if TRAINING:
         data = {"turn_rate": float(payload["turn_rate"])}
-        gather_data.save_data(img, data)
+        gather_data.save_data(front, data)
     if False: # Mostra in diretta
-        cv.imshow('window', img)
+        cv.imshow('window', front)
         cv.waitKey(1)
     if TRAINING:
         return {"verticalInput": commander.calc_throttle(speed, data["turn_rate"])}
     else:
-        tn = model.predict(img.reshape([1, settings["HEIGHT"], settings["WIDTH"], settings["CHANNELS"]]))[0,0]
+        tn = model.predict(front.reshape([1, settings["HEIGHT"], settings["WIDTH"], settings["CHANNELS"]]))[0,0]
         print(tn)
         return {"verticalInput": commander.calc_throttle(speed, tn),
                 "turnRate": str(tn)}
