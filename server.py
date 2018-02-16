@@ -13,6 +13,8 @@ from models.nvidianet import init
 
 init()
 
+CORRECTION = settings["CORRECTION"]
+
 TRAINING = True
 
 UDP_IP = "localhost"
@@ -26,9 +28,9 @@ tome_sock = socket.socket(socket.AF_INET,  # Internet
 tothem_sock = socket.socket(socket.AF_INET,  # Internet
                             socket.SOCK_DGRAM)  # UDP
 
-
 if not TRAINING:
     model = load_model(settings["DEFAULT_MODEL_FILE"])
+
 
 @callback("ping")
 def train_frame(message):
@@ -38,26 +40,37 @@ def train_frame(message):
 @callback("send_frame")
 def render_stream(payload):
     front = payload["front"]
-    speed = float(payload["speed"])
     front = decode_image(front)
+    speed = float(payload["speed"])
     if TRAINING:
-        data = {"turn_rate": float(payload["turn_rate"])}
-        gather_data.save_data(front, data)
-    if False: # Mostra in diretta
-        cv.imshow('window', front)
-        cv.waitKey(1)
-    if TRAINING:
+        data = save_sample(front, payload)
+
+        left = payload["left"]
+        right = payload["right"]
+        left = decode_image(left)
+        right = decode_image(right)
+
+        save_sample(left, payload, correction=CORRECTION)
+        save_sample(right, payload, correction=-CORRECTION)
+
         return {"verticalInput": commander.calc_throttle(speed, data["turn_rate"])}
     else:
-        tn = model.predict(front.reshape([1, settings["HEIGHT"], settings["WIDTH"], settings["CHANNELS"]]))[0,0]
+        tn = model.predict(front.reshape([1, settings["HEIGHT"], settings["WIDTH"], settings["CHANNELS"]]))[0, 0]
         print(tn)
         return {"verticalInput": commander.calc_throttle(speed, tn),
                 "turnRate": str(tn)}
+
 
 def decode_image(base64string):
     img = base64.b64decode(base64string)
     img = Image.open(BytesIO(img))
     return np.asarray(img)
+
+
+def save_sample(frame, payload, correction=0.0):
+    data = {"turn_rate": float(payload["turn_rate"]) + correction}
+    gather_data.save_data(frame, data)
+    return data
 
 
 if __name__ == "__main__":

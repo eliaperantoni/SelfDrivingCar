@@ -12,6 +12,7 @@ settings = {
     "EPOCHS": 6,
     "VALIDATION_SPLIT": 0.1,
     "BATCH_SIZE": 100,
-    "DEFAULT_MODEL_FILE": 'saved_models/env_3_cameras_unbalanced.h5',
-    "TARGET_SPEED": 40
+    "DEFAULT_MODEL_FILE": 'saved_models/env_v3.h5',
+    "TARGET_SPEED": 40,
+    "CORRECTION": 0.1
 }
