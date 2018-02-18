@@ -13,9 +13,7 @@ from models.nvidianet import init
 
 init()
 
-CORRECTION = settings["CORRECTION"]
-
-TRAINING = True
+TRAINING = settings["TRAINING"]
 
 UDP_IP = "localhost"
 
@@ -50,8 +48,8 @@ def render_stream(payload):
         left = decode_image(left)
         right = decode_image(right)
 
-        save_sample(left, payload, correction=CORRECTION)
-        save_sample(right, payload, correction=-CORRECTION)
+        save_sample(left, payload, camera="left")
+        save_sample(right, payload, camera="right")
 
         return {"verticalInput": commander.calc_throttle(speed, data["turn_rate"])}
     else:
@@ -67,8 +65,8 @@ def decode_image(base64string):
     return np.asarray(img)
 
 
-def save_sample(frame, payload, correction=0.0):
-    data = {"turn_rate": float(payload["turn_rate"]) + correction}
+def save_sample(frame, payload, camera="front"):
+    data = {"turn_rate": float(payload["turn_rate"]), "camera": camera}
     gather_data.save_data(frame, data)
     return data
 

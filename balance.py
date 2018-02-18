@@ -7,6 +7,8 @@ from sklearn.utils import resample
 from sklearn.utils import resample
 from settings import settings
 import glob, random
+from augment import seq
+import matplotlib.pyplot as plt
 
 TRESHOLD = 0.075
 
@@ -43,10 +45,25 @@ if __name__ == "__main__":
         #         break
         # print(len(left), len(forward), len(right))
         # v = np.array(left+forward+right)
+
+        for item in v:
+            if item[1]["camera"] == "left" and -1.0 < (item[1]["turn_rate"] + settings["CORRECTION"]) < 1.0:
+                item[1]["turn_rate"] += settings["CORRECTION"]
+            elif item[1]["camera"] == "right" and -1.0 < (item[1]["turn_rate"] - settings["CORRECTION"]) < 1.0:
+                item[1]["turn_rate"] -= settings["CORRECTION"]
+
         mirror = np.array([(cv.flip(elem[0], 1), {"turn_rate": -elem[1]["turn_rate"]}) for elem in v])
-        np.random.shuffle(v)
-        np.random.shuffle(mirror)
+
         merged = np.vstack((v, mirror))
+
+        images = np.array([item[0] for item in merged], dtype="uint8")
+
+        images = seq.augment_images(images)
+
+        assert len(images) == len(merged)
+
+        merged = np.array([(images[i], merged[i][1]) for i in range(len(merged))])
+
         merged_split = np.array_split(merged, len(merged) // settings["BATCH_SIZE"])
         y = 0
         for batch in merged_split:
