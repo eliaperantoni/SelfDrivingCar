@@ -7,8 +7,8 @@ from sklearn.utils import resample
 from sklearn.utils import resample
 from settings import settings
 import glob, random
-from augment import seq
 import matplotlib.pyplot as plt
+from imgaug import augmenters as iaa
 
 TRESHOLD = 0.075
 
@@ -23,47 +23,28 @@ if __name__ == "__main__":
     files = glob.glob(settings["DEFAULT_TRAIN_FILE_DIRECTORY"] + "*.npy")
     for completition, file in enumerate(files):
         v = np.load(file)
-        # left, forward, right = [], [], []
-        # for item in v:
-        #     if -TRESHOLD < item[1]["turn_rate"] < TRESHOLD:
-        #         forward.append(item)
-        #     elif item[1]["turn_rate"] < -TRESHOLD:
-        #         left.append(item)
-        #     else:
-        #         right.append(item)
-        # print(len(left), len(forward), len(right))
-        # n = max((len(left), len(right)))
-        # while len(left) < n:
-        #     if(len(left)>0):
-        #         left.append(random.choice(left))
-        #     else:
-        #         break
-        # while len(right) < n:
-        #     if (len(right) > 0):
-        #         right.append(random.choice(right))
-        #     else:
-        #         break
-        # print(len(left), len(forward), len(right))
-        # v = np.array(left+forward+right)
-
         for item in v:
-            if item[1]["camera"] == "left" and -1.0 < (item[1]["turn_rate"] + settings["CORRECTION"]) < 1.0:
+            if item[1]["camera"] == "left":
                 item[1]["turn_rate"] += settings["CORRECTION"]
-            elif item[1]["camera"] == "right" and -1.0 < (item[1]["turn_rate"] - settings["CORRECTION"]) < 1.0:
+            elif item[1]["camera"] == "right":
                 item[1]["turn_rate"] -= settings["CORRECTION"]
-
+            if item[1]["turn_rate"] > 1.0:
+                item[1]["turn_rate"] = 1.0
+            elif item[1]["turn_rate"] < -1.0:
+                item[1]["turn_rate"] = -1.0
         mirror = np.array([(cv.flip(elem[0], 1), {"turn_rate": -elem[1]["turn_rate"]}) for elem in v])
-
         merged = np.vstack((v, mirror))
-
         images = np.array([item[0] for item in merged], dtype="uint8")
-
+        # for i, image in enumerate(images):
+        #     modified = cv.cvtColor(image, cv.COLOR_BGR2YUV)
+        #     images[i] = modified
+        seq = iaa.Sequential([
+            iaa.Crop(px=(0, 8)),
+            iaa.Add(value=(0, 45)),
+        ])
         images = seq.augment_images(images)
-
         assert len(images) == len(merged)
-
         merged = np.array([(images[i], merged[i][1]) for i in range(len(merged))])
-
         merged_split = np.array_split(merged, len(merged) // settings["BATCH_SIZE"])
         y = 0
         for batch in merged_split:
@@ -72,8 +53,6 @@ if __name__ == "__main__":
                     raise Exception("Dimensione non valida", elem[0].shape)
             np.save(settings["DEFAULT_TRAIN_FILE_PROCESSED"].format(x, y), batch)
             y += 1
-        #np.save(settings["DEFAULT_TRAIN_FILE_PROCESSED_NORM"].format(i), v)
-        #np.save(settings["DEFAULT_TRAIN_FILE_PROCESSED_MIRR"].format(i), mirror)
         print(round(completition/len(files)*100, 1))
         x += 1
 

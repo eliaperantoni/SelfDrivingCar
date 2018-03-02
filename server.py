@@ -14,6 +14,7 @@ from models.nvidianet import init
 init()
 
 TRAINING = settings["TRAINING"]
+SAVE_DATA = settings["SAVE_DATA"]
 
 UDP_IP = "localhost"
 
@@ -53,6 +54,7 @@ def render_stream(payload):
 
         return {"verticalInput": commander.calc_throttle(speed, data["turn_rate"])}
     else:
+        # front = cv.cvtColor(front, cv.COLOR_BGR2YUV)
         tn = model.predict(front.reshape([1, settings["HEIGHT"], settings["WIDTH"], settings["CHANNELS"]]))[0, 0]
         print(tn)
         return {"verticalInput": commander.calc_throttle(speed, tn),
@@ -67,7 +69,8 @@ def decode_image(base64string):
 
 def save_sample(frame, payload, camera="front"):
     data = {"turn_rate": float(payload["turn_rate"]), "camera": camera}
-    gather_data.save_data(frame, data)
+    if SAVE_DATA:
+        gather_data.save_data(frame, data)
     return data
 
 
