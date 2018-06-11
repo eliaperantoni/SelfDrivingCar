@@ -1,15 +1,21 @@
-import socket, json, time, base64
+import socket, json, base64
 import gather_data
-from dispatcher import callback, call, commands
+from dispatcher import callback, call
 import numpy as np
 import cv2 as cv
 from io import BytesIO
 from PIL import Image
-import time
 import commander
 from keras.models import load_model
 from settings import settings
 from models.nvidianet import init
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-d", help="Display frames", action='store_true')
+args = parser.parse_args()
+
+print(args.d)
 
 init()
 
@@ -40,6 +46,11 @@ def train_frame(message):
 def render_stream(payload):
     front = payload["front"]
     front = decode_image(front)
+    front_enlarged = cv.resize(front, (0, 0), fx=2, fy=2)
+    if args.d:
+        cv.imshow("win", front_enlarged)
+        if cv.waitKey(1) & 0xFF == ord('q'):
+            return
     speed = float(payload["speed"])
     if TRAINING:
         data = save_sample(front, payload)
