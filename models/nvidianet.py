@@ -1,12 +1,8 @@
 import keras
-from keras.datasets import mnist
 from keras.models import Sequential
-import matplotlib.pylab as plt
-import pandas as pd
-import numpy as np
 import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
-from keras.layers import Dropout, Lambda, Dense, Flatten, Conv2D, MaxPooling2D, BatchNormalization
+from keras.layers import Dropout, Lambda, Dense, Flatten, Conv2D
 
 def init():
     config = tf.ConfigProto()

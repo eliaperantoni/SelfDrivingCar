@@ -13,7 +13,7 @@ settings = {
     "VALIDATION_SPLIT": 0.05,
     "BATCH_SIZE": 1000,
     "DEFAULT_MODEL_FILE": 'saved_models/env_junk_with_higher_correction.h5',
-    "TARGET_SPEED": 80,
+    "TARGET_SPEED": 60,
     "CORRECTION": 0.3,
     "TRAINING": False,
     "SAVE_DATA": False,
